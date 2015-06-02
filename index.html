@@ -120,10 +120,10 @@
         </section>
         <section>
           <pre><code class="language-html">
-<ui-dropdown
+&lt;ui-dropdown
   ui-dropdown-options="example.options"
   ng-model="example.selected"
-></ui-dropdown>
+>&lt;/ui-dropdown>
           </code></pre>
           <p><a href="http://localhost:3002/#/components/dropdown">Local project, sorry</a></p>
         </section>
@@ -200,6 +200,31 @@ myModule.directive 'asyncDropdownOptions', ($timeout) ->
     $scope.$on '$destroy', ->
       unwatch() for unwatch in watches
           </code></pre>
+        </section>
+        <section>
+        <h2>Composing in our application</h2>
+          <pre><code class="language-html">
+&lt;ui-dropdown
+  ui-dropdown-keys="{ display: 'display', selected: 'selected' }"
+  ui-dropdown-url="/html/templates/distinct-value.html"
+  distinct-value-dropdown="alarmStatus"
+  distinct-value-index="ALARM_INDEX_ID"
+  distinct-value-transform="AlarmOptions.FilterByAlarmStatusOptions"
+  lucene-query="alarmQuery"
+  lucene-query-filter="{ field: 'alarmStatus', type: 'Number', modelKey: 'value' }"
+  ng-model="AlarmsFilters.filters.byAlarmStatus"
+  ng-class="{applied : AlarmsFilters.filters.byAlarmStatus.value !== AlarmsFilters.defaultFilters().byAlarmStatus.value}"
+>&lt;/ui-dropdown>
+          </code></pre>
+        </section>
+        <section>
+          <ul>
+            <li><code>ui-dropdown</code> component + decorators</li>
+            <li><code>distinct-value</code> decorator (provides data)</li>
+            <li><code>lucene-query-filter</code> decorator (modifies filter object)</li>
+            <li><code>ng-model</code> decorator (value of dropdown)</li>
+            <li><code>ng-class</code> decorator (modifies style)</li>
+          </ul>
         </section>
       </section>
       <section>
@@ -283,7 +308,7 @@ myModule.directive 'asyncDropdownOptions', ($timeout) ->
         <section>
           <ul>
             <li>Restrict UI component to <code>element</code></li>
-            <li>Isolate scope</li>
+            <li>Isolate scope (element owns scope)</li>
             <li>Break UI out of application</li>
             <li>Expose API (controller and model)</li>
             <li>No data access in UI Component</li>
