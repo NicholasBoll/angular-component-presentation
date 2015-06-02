@@ -99,13 +99,33 @@
         </section>
         <section>
           <h2>Real world?</h2>
-          <iframe src="https://angular-ui.github.io/bootstrap/#/dropdown" style="width: 75%; height: 600px;"></iframe>
+          <pre><code class="language-html">
+<div class="btn-group" dropdown is-open="status.isopen">
+  <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+    Button dropdown <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+          </code></pre>
+          <p><a href="https://angular-ui.github.io/bootstrap/#dropdown">https://angular-ui.github.io/bootstrap/#dropdown</a></p>
         </section>
         <section>
           <p>That looked like Lego bricks, right?</p>
         </section>
         <section>
-          <iframe src="http://localhost:3002/#/components/dropdown" style="width: 75%; height: 600px;"></iframe>
+          <pre><code class="language-html">
+<ui-dropdown
+  ui-dropdown-options="example.options"
+  ng-model="example.selected"
+></ui-dropdown>
+          </code></pre>
+          <p><a href="http://localhost:3002/#/components/dropdown">Local project, sorry</a></p>
         </section>
         <section>
           <h2>Better, right?</h2>
