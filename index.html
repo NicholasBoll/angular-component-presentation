@@ -1,0 +1,218 @@
+<!doctype html>
+<html ng-app="presentation">
+<head>
+  <meta charset="utf-8">
+  <title>Angular Components</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="/bower_components/reveal.js/css/reveal.css">
+  <link rel="stylesheet" href="/bower_components/reveal.js/css/theme/sky.css">
+  <link rel="stylesheet" type="text/css" href="/bower_components/highlightjs/styles/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class="present">
+        <h1>Angular Componentization</h1>
+        <p>by Nicholas Boll</p>
+      </section>
+      <section>
+        <h2>Who Am I?</h2>
+        <ul>
+          <li><a href="http://twitter.com/NicholasBoll">@NicholasBoll</a></li>
+          <li>nicholas.boll@gmail.com</li>
+          <li>I'm a Software Engineer at LogRhythm</li>
+          <li>I've been using AngularJS for about 1.5 years</li>
+        </ul>
+      </section>
+      <section>
+        <h2>What is this talk about?</h2>
+        <ul>
+          <li>Thinking in terms of components</li>
+          <li>Breaking up an application into pieces</li>
+        </ul>
+      </section>
+      <section>
+        <h2>What is a component?</h2>
+        <ul>
+          <li>Reusable</li>
+          <li>Documented</li>
+          <li>Tested</li>
+          <li>Designed for unforeseen</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Component architecture</h2>
+        <ul>
+          <li>Can be any part of the architecture</li>
+          <li>Angular is meant to be composable</li>
+          <li>Directives are composable (they can require each other)</li>
+          <li>DI is about composition over inheritance</li>
+        </ul>
+      </section>
+      <section>
+        <section>
+          <h2>Component?</h2>
+          <img src="/img/lego.jpg">
+        </section>
+        <section>
+          <h2>Legos</h2>
+          <ul>
+            <li>Reusable</li>
+            <li>Composable</li>
+            <li>Can be put together to form shapes</li>
+            <li class="fragment">Not exactly what I'm talking about</li>
+          </ul>
+        </section>
+        <section>
+          <p>Lego pieces are more like <code>ng-*</code> directives</p>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Component!</h2>
+          <img src="/img/lego-components.jpg">
+        </section>
+        <section>
+          <h2>Lego component</h2>
+          <ul>
+            <li>Reusable</li>
+            <li>Composable</li>
+            <li>Higher level abstraction</li>
+            <li class="fragment">It's a duck!</li>
+          </ul>
+        </section>
+        <section>
+          <p>
+            These duck components are made up of smaller pieces.
+            They form a modular, cohesive unit that we can easily
+            identify.
+          </p>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>More animal abstractions? WTF?</h2>
+          <p>What about Angular?</p>
+        </section>
+        <section>
+          <h2>Real world?</h2>
+          <iframe src="https://angular-ui.github.io/bootstrap/#/dropdown" style="width: 75%; height: 600px;"></iframe>
+        </section>
+        <section>
+          <p>That looked like Lego bricks, right?</p>
+        </section>
+        <section>
+          <iframe src="http://localhost:3002/#/components/dropdown" style="width: 75%; height: 600px;"></iframe>
+        </section>
+        <section>
+          <h2>Better, right?</h2>
+          <ul>
+            <li>The Lego bricks are in the directive template</li>
+            <li>Actually made up of smaller components</li>
+            <li>Composable</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Decorators!</h2>
+          <ul>
+            <li><code>ui-dropdown-options</code> is actually a decorator</li>
+          </ul>
+        </section>
+        <section>
+          <pre><code class="language-coffeescript">
+myModule.directive 'uiDropdownOptions', ($parse) ->
+  restrict: 'A'
+  require: 'uiDropdown'
+
+  link: ($scope, $element, $attrs, dropdownCtrl) ->
+
+    $scope.$watch $parse($attrs.uiDropdownOptions), (options) ->
+      return unless options
+      dropdownCtrl.setOptions options
+          </code></pre>
+        </section>
+        <section>
+          <h2>Flexible</h2>
+          <ul>
+            <li>Don't need to use static options</li>
+            <li>How about async options?</li>
+          </ul>
+        </section>
+        <section>
+          <pre><code class="language-coffeescript">
+myModule.directive 'asyncDropdownOptions', ($timeout) ->
+  restrict: 'A'
+  require: 'uiDropdown'
+
+  link: ($scope, $element, $attrs, dropdownCtrl) ->
+    watches = []
+
+    getOptions = ->
+      # simulate a request from the server
+      $timeout ->
+
+        # Update the options
+        dropdownCtrl.setOptions [
+          { name: 'abc', value: 1 }
+          { name: 'cde', value: 2 }
+          { name: 'efg', value: 3 }
+          { name: 'ghi', value: 4 }
+          { name: 'ijk', value: 5 }
+          { name: 'klm', value: 6 }
+          { name: 'mno', value: 7 }
+          { name: 'opq', value: 8 }
+          { name: 'qrs', value: 9 }
+          { name: 'stu', value: 10 }
+          { name: 'uvw', value: 11 }
+          { name: 'wxy', value: 12 }
+        ]
+      , 50, false
+
+    watches.push dropdownCtrl.model.watch 'opened', (opened) ->
+      if opened
+        getOptions()
+      else
+        dropdownCtrl.setOptions [] # remove all options when closed - prevents flashing when opening
+
+    $scope.$on '$destroy', ->
+      unwatch() for unwatch in watches
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>How to do this in Angular?</h2>
+        </section>
+        <section>
+          <h2>Why is this hard?</h2>
+        </section>
+        <section>
+          <h2>Examples suck</h2>
+        </section>
+        <section>
+          <pre><code>
+            
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <h2>Questions?</h2>
+      </section>
+    </div>
+  </div>
+  <script src="/bower_components/reveal.js/lib/js/head.min.js"></script>
+  <script src="/bower_components/reveal.js/js/reveal.js"></script>
+  <script src="/bower_components/reveal.js/plugin/notes/notes.js"></script>
+  <script>
+    Reveal.initialize({
+      dependencies: [
+        { src: '/bower_components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+      ],
+      history: true
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "angular-components",
+  "version": "0.0.0",
+  "authors": [
+    "Nicholas Boll <nicholas.boll@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "reveal.js": "~3.1.0",
+    "highlightjs": "~8.5.0"
+  }
+}
