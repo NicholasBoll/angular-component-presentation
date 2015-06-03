@@ -15,7 +15,7 @@
   <div class="reveal">
     <div class="slides">
       <section class="present">
-        <h1>Angular Componentization</h1>
+        <h2>Angular Componentization</h2>
         <p>by Nicholas Boll</p>
       </section>
       <section>
@@ -243,47 +243,47 @@ myModule.directive 'asyncDropdownOptions', ($timeout) ->
         </section>
         <section>
           <pre><code class="language-html">
-<section id="todoapp">
-  <header id="header">
-    <h1>todos</h1>
-    <form id="todo-form" ng-submit="addTodo()">
-      <input id="new-todo" placeholder="What needs to be done?" ng-model="newTodo" ng-disabled="saving" autofocus>
-    </form>
-  </header>
-  <section id="main" ng-show="todos.length" ng-cloak>
-    <input id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="markAll(allChecked)">
-    <label for="toggle-all">Mark all as complete</label>
-    <ul id="todo-list">
-      <li ng-repeat="todo in todos | filter:statusFilter track by $index" ng-class="{completed: todo.completed, editing: todo == editedTodo}">
-        <div class="view">
-          <input class="toggle" type="checkbox" ng-model="todo.completed" ng-change="toggleCompleted(todo)">
-          <label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
-          <button class="destroy" ng-click="removeTodo(todo)"></button>
-        </div>
-        <form ng-submit="saveEdits(todo, 'submit')">
-          <input class="edit" ng-trim="false" ng-model="todo.title" todo-escape="revertEdits(todo)" ng-blur="saveEdits(todo, 'blur')" todo-focus="todo == editedTodo">
-        </form>
-      </li>
-    </ul>
-  </section>
-  <footer id="footer" ng-show="todos.length" ng-cloak>
-    <span id="todo-count"><strong>{{remainingCount}}</strong>
-      <ng-pluralize count="remainingCount" when="{ one: 'item left', other: 'items left' }"></ng-pluralize>
-    </span>
-    <ul id="filters">
-      <li>
-        <a ng-class="{selected: status == ''} " href="#/">All</a>
-      </li>
-      <li>
-        <a ng-class="{selected: status == 'active'}" href="#/active">Active</a>
-      </li>
-      <li>
-        <a ng-class="{selected: status == 'completed'}" href="#/completed">Completed</a>
-      </li>
-    </ul>
-    <button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed</button>
-  </footer>
-</section>
+&lt;section id="todoapp">
+  &lt;header id="header">
+    &lt;h1>todos&lt;/h1>
+    &lt;form id="todo-form" ng-submit="addTodo()">
+      &lt;input id="new-todo" placeholder="What needs to be done?" ng-model="newTodo" ng-disabled="saving" autofocus>
+    &lt;/form>
+  &lt;/header>
+  &lt;section id="main" ng-show="todos.length" ng-cloak>
+    &lt;input id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="markAll(allChecked)">
+    &lt;label for="toggle-all">Mark all as complete&lt;/label>
+    &lt;ul id="todo-list">
+      &lt;li ng-repeat="todo in todos | filter:statusFilter track by $index" ng-class="{completed: todo.completed, editing: todo == editedTodo}">
+        &lt;div class="view">
+          &lt;input class="toggle" type="checkbox" ng-model="todo.completed" ng-change="toggleCompleted(todo)">
+          &lt;label ng-dblclick="editTodo(todo)">{{todo.title}}&lt;/label>
+          &lt;button class="destroy" ng-click="removeTodo(todo)">&lt;/button>
+        &lt;/div>
+        &lt;form ng-submit="saveEdits(todo, 'submit')">
+          &lt;input class="edit" ng-trim="false" ng-model="todo.title" todo-escape="revertEdits(todo)" ng-blur="saveEdits(todo, 'blur')" todo-focus="todo == editedTodo">
+        &lt;/form>
+      &lt;/li>
+    &lt;/ul>
+  &lt;/section>
+  &lt;footer id="footer" ng-show="todos.length" ng-cloak>
+    &lt;span id="todo-count">&lt;strong>{{remainingCount}}&lt;/strong>
+      &lt;ng-pluralize count="remainingCount" when="{ one: 'item left', other: 'items left' }">&lt;/ng-pluralize>
+    &lt;/span>
+    &lt;ul id="filters">
+      &lt;li>
+        &lt;a ng-class="{selected: status == ''} " href="#/">All&lt;/a>
+      &lt;/li>
+      &lt;li>
+        &lt;a ng-class="{selected: status == 'active'}" href="#/active">Active&lt;/a>
+      &lt;/li>
+      &lt;li>
+        &lt;a ng-class="{selected: status == 'completed'}" href="#/completed">Completed&lt;/a>
+      &lt;/li>
+    &lt;/ul>
+    &lt;button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed&lt;/button>
+  &lt;/footer>
+&lt;/section>
           </code></pre>
         </section>
         <section>
@@ -314,6 +314,8 @@ myModule.directive 'asyncDropdownOptions', ($timeout) ->
             <li>No data access in UI Component</li>
             <li>Use decorators for data access</li>
             <li>Lots of tests</li>
+            <li>Don't use <a href="http://teropa.info/blog/2014/10/24/how-ive-improved-my-angular-apps-by-banning-ng-controller.html">ng-controller</a></li>
+            <li>Don't use <code>ng-include</code></li>
           </ul>
         </section>
         <section>
